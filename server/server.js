@@ -8,7 +8,7 @@ const { MONGO_URL, PORT = 8080 } = process.env;
 if (!MONGO_URL) {
   console.error("Missing MONGO_URL environment variable");
   process.exit(1);
-}
+}else console.log('connected')
 
 const app = express();
 
@@ -39,6 +39,12 @@ app.get("/api/employees/", async (req, res) => {
 app.get("/api/employees/:id", (req, res) => {
   return res.json(req.employee);
 });
+
+//route for Robert
+app.get("/robert", async (req, res) => {
+  const employees = await EmployeeModel.find({name: {$regex: "^" + "robert", $options : "i"}})
+   return res.json(employees)
+})
 
 app.post("/api/employees/", async (req, res, next) => {
   const employee = req.body;
