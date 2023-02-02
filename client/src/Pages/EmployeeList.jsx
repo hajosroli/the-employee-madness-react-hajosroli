@@ -11,6 +11,16 @@ const deleteEmployee = (id) => {
     res.json()
   );
 };
+const updateEmployee = (employee, empId) => {
+  return fetch(`/api/employees/${empId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(employee),
+  }).then((res) => res.json());
+};
+
 
 const EmployeeList = () => {
   const [loading, setLoading] = useState(true);
@@ -18,6 +28,19 @@ const EmployeeList = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [order, setOrder] = useState('')
   
+  console.log(data)
+  
+  const handleChange = (present, index, empId) => {
+    let employee = data[index];
+    employee.present = !present;
+    let employees = [...data];
+    employees[index]= employee;
+    setData([...employees]);
+    updateEmployee(employees[index], empId)
+    .then(()=> (console.log('updated')))
+  }
+ 
+
   const sorting = (col) => {
     if(order === 'ASC' || order === ''){
       const sorted = [...data].sort((a, b) => 
@@ -88,6 +111,8 @@ const EmployeeList = () => {
       .then((employees) => {
         setLoading(false);
         setData(employees);
+        
+        
       })
       .catch((error) => {
         if (error.name !== "AbortError") {
@@ -118,7 +143,7 @@ const EmployeeList = () => {
     <button onClick={() => sortingLastName('name')}>Sort by Last Name</button>
     <button onClick={() => sortingMiddleName('name')}>Sort by Middle Name</button>  
   </div>
-  <EmployeeTable employees={filteredEmployees} onDelete={handleDelete} sorting={sorting} />
+  <EmployeeTable employees={filteredEmployees} onDelete={handleDelete} sorting={sorting}  handleChange={handleChange} />
   </>
   )
 };

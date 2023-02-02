@@ -41,8 +41,45 @@ app.get("/api/employees/:id", (req, res) => {
   return res.json(req.employee);
 });
 
+app.get("/missing", async (req, res) => {
+  const employees = await EmployeeModel.find({present: false})
+  res.json(employees)
+})
+app.post("/api/employees/", async (req, res, next) => {
+  const employee = req.body;
+
+  try {
+    const saved = await EmployeeModel.create(employee);
+    return res.json(saved);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+app.patch("/api/employees/:id", async (req, res, next) => {
+  const employee = req.body;
+
+  try {
+    const updated = await req.employee.set(employee).save();
+    return res.json(updated);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+
+
+app.delete("/api/employees/:id", async (req, res, next) => {
+  try {
+    const deleted = await req.employee.delete();
+    return res.json(deleted);
+  } catch (err) {
+    return next(err);
+  }
+});
+
 //routes for equipments
-app.use("/api/equipments/:id", async (req, res, next) => {
+app.use("/api/equipment/:id", async (req, res, next) => {
   let equipment = null;
 
   try {
@@ -105,36 +142,7 @@ app.get("/robert", async (req, res) => {
    return res.json(employees)
 })
 
-app.post("/api/employees/", async (req, res, next) => {
-  const employee = req.body;
 
-  try {
-    const saved = await EmployeeModel.create(employee);
-    return res.json(saved);
-  } catch (err) {
-    return next(err);
-  }
-});
-
-app.patch("/api/employees/:id", async (req, res, next) => {
-  const employee = req.body;
-
-  try {
-    const updated = await req.employee.set(employee).save();
-    return res.json(updated);
-  } catch (err) {
-    return next(err);
-  }
-});
-
-app.delete("/api/employees/:id", async (req, res, next) => {
-  try {
-    const deleted = await req.employee.delete();
-    return res.json(deleted);
-  } catch (err) {
-    return next(err);
-  }
-});
 
 const main = async () => {
   await mongoose.connect(MONGO_URL);
