@@ -19,6 +19,7 @@ const EmployeeTable = ({ employees, onDelete, checked, setChecked, handleChange 
             <td>{employee.name}</td>
             <td>{employee.level}</td>
             <td>{employee.position}</td>
+            <td>{employee.equipment}</td>
             <td>
             <input type="checkbox" value={employee.present} checked={employee.present} id={index} onChange={() => handleChange(employee.present,index, employee._id)}/>
             </td>

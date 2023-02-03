@@ -34,7 +34,9 @@ app.use("/api/employees/:id", async (req, res, next) => {
 
 app.get("/api/employees/", async (req, res) => {
   const employees = await EmployeeModel.find().sort({ created: "desc" });
+   console.log(employees)
   return res.json(employees);
+ 
 });
 
 app.get("/api/employees/:id", (req, res) => {
