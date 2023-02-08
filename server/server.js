@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const EmployeeModel = require("./db/employee.model");
 const EquipmentModel = require("./db/equipment.model")
+const ToolsModel = require("./db/tools.model")
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 
@@ -34,7 +35,7 @@ app.use("/api/employees/:id", async (req, res, next) => {
 
 app.get("/api/employees/", async (req, res) => {
   const employees = await EmployeeModel.find().sort({ created: "desc" });
-   console.log(employees)
+ 
   return res.json(employees);
  
 });
@@ -47,6 +48,87 @@ app.get("/missing", async (req, res) => {
   const employees = await EmployeeModel.find({present: false})
   res.json(employees)
 })
+
+app.get("/top-paid", async (req, res) => {
+  const employees = await EmployeeModel
+  .find()
+  .sort({current_salary: "desc"})
+  .limit(3)
+  res.json(employees)
+})
+
+app.get("/tools", async (req, res) => {
+ 
+  const tools = await ToolsModel.find().sort({name: "desc"})
+  res.json(tools)
+})
+
+app.post("/tools", async (req, res, next) => {
+  await ToolsModel.deleteMany()
+  const tool = req.body;
+  try {
+    const created = await ToolsModel.insertMany(tool);
+   
+    res.json(created)
+    
+  } catch (error) {
+    next(error)
+  }
+})
+
+app.delete("/tools/:name", async (req, res, next) => {
+  const name = req.params.name;
+  try {
+    const deleted = await ToolsModel.findOne({name: name}).deleteOne()
+    
+    res.json(deleted)
+  } catch (error) {
+    next(error)
+  }
+})
+app.use("/kittens/:id", async (req, res, next) => {
+  let kitten = null;
+
+  try {
+    kitten = await EmployeeModel.findById(req.params.id);
+  } catch (err) {
+    return next(err);
+  }
+
+  if (!kitten) {
+    return res.status(404).end("Kitten not found");
+  }
+
+  req.kitten = kitten;
+  next();
+});
+app.get("/kittens/:id", async (req, res) => {
+  const id = req.params.id;
+  const kitten = await EmployeeModel.findById(id)
+  
+  res.json(kitten)
+})
+
+app.post("/api/employees/:id", async (req, res, next) => {
+  
+  const kitten = req.body
+  console.log(kitten)
+  const id = req.params.id
+  try {
+    const newKitten = await EmployeeModel.findOneAndUpdate(
+      {_id: id},
+      {
+        $push: {
+          kittens: kitten
+        }
+      })
+      res.json(req.body)
+  } catch (error) {
+    next(error)
+  }
+})
+
+
 app.post("/api/employees/", async (req, res, next) => {
   const employee = req.body;
 
@@ -68,6 +150,7 @@ app.patch("/api/employees/:id", async (req, res, next) => {
     return next(err);
   }
 });
+
 
 
 

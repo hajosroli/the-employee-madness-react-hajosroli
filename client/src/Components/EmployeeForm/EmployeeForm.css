@@ -13,11 +13,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    user-select: auto;
+    
     
   }
 
-  .dropdown-menu {
+  .menu {
     position: absolute;
     transform: translateY(4px);
     width: 100%;

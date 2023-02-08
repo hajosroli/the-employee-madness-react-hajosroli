@@ -27,15 +27,34 @@ const EmployeeList = () => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('')
   const [order, setOrder] = useState('')
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [id, setId] = useState('')
+  
   
   console.log(data)
+
+  const convertSalary = (slry) => {
+    let sal = slry.toString()
+   
+    return sal.substring(0, sal.length - 3) + "." + sal.substring(sal.length - 3, sal.length) + "$";
+  } 
+
+  /*const startDate = (date) => {
+    console.log(typeof date)
+  }*/
+  /*const handleChange2 = (present, index, empId) => {
+    setData(oldData => oldData.map((employee, i) => 
+    (i  === index)? {...employee, present: !employee.present}:
+    employee
+    ))
+  }*/
   
+
   const handleChange = (present, index, empId) => {
-    let employee = data[index];
-    employee.present = !present;
     let employees = [...data];
-    employees[index]= employee;
-    setData([...employees]);
+    let employee = employees[index];
+    employee.present = !present;
+    setData(employees);
     updateEmployee(employees[index], empId)
     .then(()=> (console.log('updated')))
   }
@@ -93,7 +112,16 @@ const EmployeeList = () => {
       ||
        e.level.toLowerCase().includes(searchTerm.toLowerCase())
   }): [];
-  
+
+  // Delete confirmatio
+  const showConfirmation = (index, empId) => {
+    console.log(data[index])
+    if(data[index]._id === empId){
+      setShowConfirm(true)
+      setId(empId)
+    }
+  }
+ 
   const handleDelete = (id) => {
     deleteEmployee(id).catch((err) => {
       console.log(err);
@@ -102,6 +130,7 @@ const EmployeeList = () => {
     setData((employees) => {
       return employees.filter((employee) => employee._id !== id);
     });
+    setShowConfirm(false)
   };
 
   useEffect(() => {
@@ -143,7 +172,19 @@ const EmployeeList = () => {
     <button onClick={() => sortingLastName('name')}>Sort by Last Name</button>
     <button onClick={() => sortingMiddleName('name')}>Sort by Middle Name</button>  
   </div>
-  <EmployeeTable employees={filteredEmployees} onDelete={handleDelete} sorting={sorting}  handleChange={handleChange} />
+  <EmployeeTable 
+  employees={filteredEmployees} 
+  onDelete={handleDelete} 
+  id={id} 
+  showConfirmation={showConfirmation} 
+  showConfirm={showConfirm} 
+  setShowConfirm={setShowConfirm} 
+  sorting={sorting}  
+  handleChange={handleChange} 
+  convertSalary={convertSalary}
+  //startDate={startDate} 
+  />
+  
   </>
   )
 };

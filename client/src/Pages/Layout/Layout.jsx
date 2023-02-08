@@ -16,9 +16,19 @@ const Layout = () => (
             <button type="button">Equipment</button>
           </Link>
         </li>
+        <li className="grow">
+          <Link to="/tools">
+            <button type="button">Tools</button>
+          </Link>
+        </li>
         <li>
           <Link to="/missing">
             <button type="button">Missing Employees</button>
+          </Link>
+        </li>
+        <li>
+          <Link to="/top-paid">
+            <button type="button">Top-paid Employees</button>
           </Link>
         </li>
         <li>

@@ -31,6 +31,7 @@ const EmployeeUpdater = () => {
   const [employeeLoading, setEmployeeLoading] = useState(true);
   const [equipmentLoading, setEquipmentLoading] = useState(true);
   const [equipments, setEquipments] = useState(null) 
+ 
   
   console.log(employee)
   

@@ -17,6 +17,9 @@ import EquipmentList from "./Pages/EquipmentList";
 import EquipmentCreator from "./Pages/EquipmentCreator";
 import EquipmentUpdater from "./Pages/EquipmentUpdater";
 import MissingEmployees from "./Pages/Missing";
+import TopPaid from "./Pages/TopPaid";
+import Tools from "./Pages/Tools";
+import Kittens from "./Pages/Kittens";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +66,18 @@ const router = createBrowserRouter([
       {
         path: "/update-equipment/:id",
         element: <EquipmentUpdater />
+      },
+      {
+        path: "/top-paid",
+        element: <TopPaid />
+      },
+      {
+        path: "/tools",
+        element: <Tools />
+      },
+      {
+        path: "/kittens/:id",
+        element: <Kittens />
       }
 ,
 

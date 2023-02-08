@@ -7,6 +7,7 @@
     "dev": "nodemon server.js",
     "populate": "node ./populate/populate.js",
     "populateEq": "node ./equipment-populate/populateEq.js",
+    "populateTools": "node ./toolsPopulate/populateTools.js",
     "format": "prettier -w ."
   },
   "keywords": [],
