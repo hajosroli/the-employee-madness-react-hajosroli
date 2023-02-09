@@ -4,8 +4,11 @@ import  "./EmployeeForm.css";
 const EmployeeForm = ({ onSave, disabled, employee, onCancel, equipments}) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("Select...")
-console.log(equipments)
-console.log(open)
+  const [position, setPosition] = useState("")
+  const [experience, setExperience] = useState("")
+  console.log(position)
+  console.log(experience)
+
   useEffect(() => {
     const handler = () => setOpen(false);
 
@@ -35,8 +38,11 @@ console.log(entries)
       acc[k] = v;
       return acc;
     }, {});
-
-  employee.equipment =  selected;
+    if(selected !== "Select..."){
+      employee.equipment =  selected;
+      employee.experience = experience;
+    }
+  
 
 console.log(employee)
     return onSave(employee);
@@ -73,8 +79,20 @@ console.log(employee)
           defaultValue={employee ? employee.position : null}
           name="position"
           id="position"
+          onChange={e=> setPosition(e.target.value)}
         />
       </div>
+      {position !== "Junior" && (
+       <div className="control">
+        <label htmlFor="experience">Years of experience:</label>
+        <input
+          defaultValue={employee ? employee.experience : null}
+          name="experience"
+          id="experience"
+          onChange={e=> setExperience(e.target.value)}
+        />
+       </div>)
+      }
             <div className="control">
           <label htmlFor="starting_date">Starting Date:</label>
           <input 

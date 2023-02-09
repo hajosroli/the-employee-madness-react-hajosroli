@@ -9,6 +9,7 @@ const EmployeeSchema = new Schema({
   position: String,
   present: Boolean,
   equipment: String,
+  experience: Number,
   starting_date: String,
   current_salary: Number,
   desired_salary: Number,

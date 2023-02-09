@@ -5,7 +5,7 @@ export default function TopPaid(){
     const [employees, setEmployees] = useState([]);
 
     const fetchEmployees = async () => {
-        const data = await fetch('http://localhost:3000/top-paid');
+        const data = await fetch('/top-paid');
         const response = await data.json()
         setEmployees(response)
     }

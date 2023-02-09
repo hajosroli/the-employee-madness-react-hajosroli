@@ -44,6 +44,16 @@ app.get("/api/employees/:id", (req, res) => {
   return res.json(req.employee);
 });
 
+app.get("/years-of-experience/:experience",async (req, res) => {
+  const exp = req.params.experience;
+  try {
+    const employees = await EmployeeModel.find({experience: exp})
+    res.json(employees)
+  } catch (error) {
+    res.status(404)
+  }
+})
+
 app.get("/missing", async (req, res) => {
   const employees = await EmployeeModel.find({present: false})
   res.json(employees)
@@ -150,9 +160,6 @@ app.patch("/api/employees/:id", async (req, res, next) => {
     return next(err);
   }
 });
-
-
-
 
 app.delete("/api/employees/:id", async (req, res, next) => {
   try {

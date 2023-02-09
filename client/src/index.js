@@ -20,6 +20,7 @@ import MissingEmployees from "./Pages/Missing";
 import TopPaid from "./Pages/TopPaid";
 import Tools from "./Pages/Tools";
 import Kittens from "./Pages/Kittens";
+import Experience from "./Pages/Experience";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: "/kittens/:id",
         element: <Kittens />
+      },
+      {
+        path: "/years-of-experience/:experience",
+        element: <Experience />
       }
 ,
 

@@ -30,18 +30,14 @@ const EmployeeList = () => {
   const [showConfirm, setShowConfirm] = useState(false)
   const [id, setId] = useState('')
   
-  
-  console.log(data)
 
   const convertSalary = (slry) => {
+   if(slry !== null){
     let sal = slry.toString()
-   
     return sal.substring(0, sal.length - 3) + "." + sal.substring(sal.length - 3, sal.length) + "$";
+   }
   } 
 
-  /*const startDate = (date) => {
-    console.log(typeof date)
-  }*/
   /*const handleChange2 = (present, index, empId) => {
     setData(oldData => oldData.map((employee, i) => 
     (i  === index)? {...employee, present: !employee.present}:
@@ -49,7 +45,6 @@ const EmployeeList = () => {
     ))
   }*/
   
-
   const handleChange = (present, index, empId) => {
     let employees = [...data];
     let employee = employees[index];

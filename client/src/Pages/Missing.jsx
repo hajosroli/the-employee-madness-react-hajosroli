@@ -12,7 +12,7 @@ const updateEmployee = (employee, empId) => {
 
 export default function MissingEmployees(){
     const [employees, setEmployees] = useState([])
-    console.log(employees)
+    
 
     const fetchEmployees = async() => {
         const data = await fetch('http://localhost:3000/missing')

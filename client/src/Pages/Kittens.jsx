@@ -20,13 +20,7 @@ export default function Kittens(){
         const [employeeLoading, setEmployeeLoading] = useState(true);
         const [catName, setCatName] = useState('')
         const [weight, setWeight] = useState('')
-        /*const [newKitten, setNewKitten] = useState({
-            name: "",
-            weight: ""
-        })*/
-        
-
-        console.log(employee)
+       
         const fetchKittens = (id) => {
            return fetch(`/kittens/${id}`).then((res) => res.json())
         }
@@ -43,12 +37,16 @@ export default function Kittens(){
                   });
             
         }, [id]);
+        
 
-        const handleCreate = (e) => {
+
+       const handleCreate = (e) => {
             const newKitten = {
                 name: catName,
                 weight: weight
             }
+        
+
             console.log(newKitten)
             createKitten(newKitten, id)
                 .then(() => {
@@ -62,10 +60,6 @@ export default function Kittens(){
             setWeight('')
             }
            
-       
-       
-        
-
         if(employeeLoading){
             return <Loading />
         }
@@ -75,7 +69,7 @@ export default function Kittens(){
                 <div>
                     <input value={catName} placeholder="Type Name" onChange={e => setCatName(e.target.value)}></input>
                     <input value={weight} placeholder="Type Weight" onChange={e => setWeight(e.target.value)}></input>
-                    <button type="button" onClick={e=> handleCreate()}>Add Kitten</button>
+                    <button type="button" onClick={e=> handleCreate(employee)}>Add Kitten</button>
                 </div>
             <table>
                 <thead>
