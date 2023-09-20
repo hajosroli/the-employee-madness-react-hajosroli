@@ -1,3 +1,5 @@
+import { Form, Button } from "react-bootstrap";
+
 const EquipmentForm = ({ onSave, disabled, equipment, onCancel }) => {
   const onSubmit = (e) => {
     e.preventDefault();
@@ -14,48 +16,38 @@ const EquipmentForm = ({ onSave, disabled, equipment, onCancel }) => {
   };
 
   return (
-    <form className="EquipmentForm" onSubmit={onSubmit}>
+    <div className="container">
+    <Form className="mt-4" onSubmit={onSubmit}>
       {equipment && (
-        <input type="hidden" name="_id" defaultValue={equipment._id} />
+        <Form.Control type="hidden" name="_id" defaultValue={equipment._id} />
       )}
 
-      <div className="control">
-        <label htmlFor="name">Name:</label>
-        <input
-          defaultValue={equipment ? equipment.name : null}
-          name="name"
-          id="name"
-        />
-      </div>
+      <Form.Group className="mb-3" controlId="equipmentName">
+        <Form.Label>Name:</Form.Label>
+        <Form.Control type="text" defaultValue={equipment ? equipment.name : ''} name="name" />
+      </Form.Group>
 
-      <div className="control">
-        <label htmlFor="type">Type:</label>
-        <input
-          defaultValue={equipment ? equipment.type : null}
-          name="type"
-          id="type"
-        />
-      </div>
+      <Form.Group className="mb-3" controlId="equipmentType">
+        <Form.Label>Type:</Form.Label>
+        <Form.Control type="text" defaultValue={equipment ? equipment.type : ''} name="type" />
+      </Form.Group>
 
-      <div className="control">
-        <label htmlFor="amount">Amount:</label>
-        <input
-          defaultValue={equipment ? equipment.amount : null}
-          name="amount"
-          id="amount"
-        />
-      </div>
+      <Form.Group className="mb-3" controlId="equipmentAmount">
+        <Form.Label>Amount:</Form.Label>
+        <Form.Control type="number" defaultValue={equipment ? equipment.amount : ''} name="amount" />
+      </Form.Group>
 
-      <div className="buttons">
-        <button type="submit" disabled={disabled}>
+      <div className="buttons mt-3">
+        <Button type="submit" disabled={disabled} className="mr-2">
           {equipment ? "Update Equipment" : "Create Equipment"}
-        </button>
+        </Button>
 
-        <button type="button" onClick={onCancel}>
+        <Button variant="secondary" type="button" onClick={onCancel}>
           Cancel
-        </button>
+        </Button>
       </div>
-    </form>
+    </Form>
+    </div>
   );
 };
 

@@ -1,30 +1,16 @@
 import { useState, useEffect } from "react";
 import  "./EmployeeForm.css";
+import { Form, Button, Dropdown,  } from "react-bootstrap";
 
 const EmployeeForm = ({ onSave, disabled, employee, onCancel, equipments}) => {
-  const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("Select...")
   const [position, setPosition] = useState("")
   const [experience, setExperience] = useState("")
   console.log(position)
   console.log(experience)
 
-  useEffect(() => {
-    const handler = () => setOpen(false);
-
-    window.addEventListener("click", handler);
-    return () => 
-    {window.removeEventListener("click", handler)};
-  })
-
-  function handleOpen(e){
-    e.stopPropagation()
-    setOpen(!open)
-  }
-
   function onItemClick(equipment){
     setSelected(equipment.name)
-   
   }
   
   const onSubmit = (e) => {
@@ -42,127 +28,86 @@ console.log(entries)
       employee.equipment =  selected;
       employee.experience = experience;
     }
-  
-
 console.log(employee)
     return onSave(employee);
     
   };
 
   return (
-    <form className="EmployeeForm" onSubmit={onSubmit}>
+    <div className="container">
+    <Form className="mt-4" onSubmit={onSubmit}>
       {employee && (
-        <input type="hidden" name="_id" defaultValue={employee._id} />
+        <Form.Control type="hidden" name="_id" defaultValue={employee._id} />
+      )}
+      <Form.Group className="mb-3" controlId="employeeName">
+        <Form.Label>Name:</Form.Label>
+        <Form.Control type="text" defaultValue={employee ? employee.name : ''} name="name" />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="employeeLevel">
+        <Form.Label>Level:</Form.Label>
+        <Form.Control type="text" defaultValue={employee ? employee.level : ''} name="level" />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="employeePosition">
+        <Form.Label>Position:</Form.Label>
+        <Form.Control type="text" defaultValue={employee ? employee.position : ''} name="position" onChange={e => setPosition(e.target.value)} />
+      </Form.Group>
+
+      {position !== "Junior" && (
+        <Form.Group className="mb-3" controlId="employeeExperience">
+          <Form.Label>Years of experience:</Form.Label>
+          <Form.Control type="number" defaultValue={employee ? employee.experience : ''} name="experience" onChange={e => setExperience(e.target.value)} />
+        </Form.Group>
       )}
 
-      <div className="control">
-        <label htmlFor="name">Name:</label>
-        <input
-          defaultValue={employee ? employee.name : null}
-          name="name"
-          id="name"
-        />
-      </div>
+      <Form.Group className="mb-3" controlId="employeeStartingDate">
+        <Form.Label>Starting Date:</Form.Label>
+        <Form.Control type="date" defaultValue={employee ? employee.starting_date : ''} name="starting_date" />
+      </Form.Group>
 
-      <div className="control">
-        <label htmlFor="level">Level:</label>
-        <input
-          defaultValue={employee ? employee.level : null}
-          name="level"
-          id="level"
-        />
-      </div>
+      <Form.Group className="mb-3" controlId="employeeCurrentSalary">
+        <Form.Label>Current Salary:</Form.Label>
+        <Form.Control type="number" defaultValue={employee ? employee.current_salary : ''} name="current_salary" />
+      </Form.Group>
 
-      <div className="control">
-        <label htmlFor="position">Position:</label>
-        <input
-          defaultValue={employee ? employee.position : null}
-          name="position"
-          id="position"
-          onChange={e=> setPosition(e.target.value)}
-        />
-      </div>
-      {position !== "Junior" && (
-       <div className="control">
-        <label htmlFor="experience">Years of experience:</label>
-        <input
-          defaultValue={employee ? employee.experience : null}
-          name="experience"
-          id="experience"
-          onChange={e=> setExperience(e.target.value)}
-        />
-       </div>)
-      }
-            <div className="control">
-          <label htmlFor="starting_date">Starting Date:</label>
-          <input 
-          type="date" 
-          defaultValue={employee ? employee.starting_date : null}
-          name="starting_date"
-          id="starting_date" />
-        </div>
-        <div className="control">
-          <label htmlFor="current_salary">Current Salary:</label>
-          <input 
-          type="number" 
-          defaultValue={employee ? employee.current_salary : null}
-          name="current_salary"
-          id="current_salary" />
-        </div>
-        <div className="control">
-          <label htmlFor="desired_salary">Desired Salary:</label>
-          <input 
-          type="number" 
-          defaultValue={employee ? employee.desired_salary : null}
-          name="desired_salary"
-          id="desired_salary" />
-        </div>
-        <div className="control">
-          <label htmlFor="fav_color">Favourite Color:</label>
-          <input 
-          type="color" 
-          defaultValue={employee ? employee.fav_color : null}
-          name="fav_color"
-          id="fav_color" />
-        </div>
-          
+      <Form.Group className="mb-3" controlId="employeeDesiredSalary">
+        <Form.Label>Desired Salary:</Form.Label>
+        <Form.Control type="number" defaultValue={employee ? employee.desired_salary : ''} name="desired_salary" />
+      </Form.Group>
 
-      <div className="control">
-      <label htmlFor="equipment">Equipment:</label>
-        <div className="dropdown-container">
-        <div className="dropdown-input" onClick={handleOpen}>{selected}
-      {open && (
-        <div className="menu">
-          {equipments.map((equipment) => (
-            <li className="dropdown-item" 
-            defaultValue={employee ? employee.equipment : null}
-            name="equipment"
-            id="equipment"
-            key={equipment.name} 
-            
-            onClick={() => onItemClick(equipment)}>
-              {equipment.name}
-            </li>
-          ))}
-        </div>
-      )} 
-      </div>
-      </div>
-    
-      
-      
-      
-    </div>
-      <div className="buttons">
-        <button type="submit" disabled={disabled}>
+      <Form.Group className="mb-3" controlId="employeeFavColor">
+        <Form.Label>Favourite Color:</Form.Label>
+        <Form.Control type="color" defaultValue={employee ? employee.fav_color : ''} name="fav_color" />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="employeeEquipment">
+        <Form.Label>Equipment:</Form.Label>
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="dropdown-equipment">
+            {selected ? selected : "Select Equipment"}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            {equipments.map((equipment) => (
+              <Dropdown.Item key={equipment.name} onClick={() => onItemClick(equipment)}>
+                {equipment.name}
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
+      </Form.Group>
+
+      <div className="buttons mt-3">
+        <Button type="submit" disabled={disabled} className="mr-2">
           {employee ? "Update Employee" : "Create Employee"}
-        </button>
+        </Button>
 
-        <button type="button" onClick={onCancel}>
+        <Button variant="secondary" type="button" onClick={onCancel}>
           Cancel
-        </button>
+        </Button>
       </div>
-    </form>
+    </Form>
+    </div>
   );
 };
 
